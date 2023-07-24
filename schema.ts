@@ -16,6 +16,7 @@ import {
   password,
   timestamp,
   image,
+  integer,
 } from '@keystone-6/core/fields';
 
 // the document field is a more complicated field, so it has it's own package
@@ -82,6 +83,19 @@ export const lists: Lists = {
         },
       }),
       profile: image({ storage: 'profile_storage' }),
+    },
+  }),
+  Company_Information: list({
+    access: allowAll,
+    fields: {
+      name: text({ validation: { isRequired: true } }),
+      address: text({ validation: { isRequired: true } }),
+      createdAt: timestamp({
+        defaultValue: { kind: 'now' },
+      }),
+      updatedAt: timestamp({
+        defaultValue: { kind: 'now' },
+      }),
     },
   }),
 };

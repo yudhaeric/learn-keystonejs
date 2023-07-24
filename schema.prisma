@@ -40,3 +40,11 @@ model TeamMember {
 
   @@index([positionId])
 }
+
+model Company_Information {
+  id        Int       @id @default(autoincrement())
+  name      String    @default("")
+  address   String    @default("")
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @default(now())
+}

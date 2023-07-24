@@ -255,6 +255,56 @@ input PositionRelateToOneForCreateInput {
   connect: PositionWhereUniqueInput
 }
 
+type Company_Information {
+  id: ID!
+  name: String
+  address: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input Company_InformationWhereUniqueInput {
+  id: ID
+}
+
+input Company_InformationWhereInput {
+  AND: [Company_InformationWhereInput!]
+  OR: [Company_InformationWhereInput!]
+  NOT: [Company_InformationWhereInput!]
+  id: IDFilter
+  name: StringFilter
+  address: StringFilter
+  createdAt: DateTimeNullableFilter
+  updatedAt: DateTimeNullableFilter
+}
+
+input Company_InformationOrderByInput {
+  id: OrderDirection
+  name: OrderDirection
+  address: OrderDirection
+  createdAt: OrderDirection
+  updatedAt: OrderDirection
+}
+
+input Company_InformationUpdateInput {
+  name: String
+  address: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+input Company_InformationUpdateArgs {
+  where: Company_InformationWhereUniqueInput!
+  data: Company_InformationUpdateInput!
+}
+
+input Company_InformationCreateInput {
+  name: String
+  address: String
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
 """
@@ -279,6 +329,12 @@ type Mutation {
   updateTeamMembers(data: [TeamMemberUpdateArgs!]!): [TeamMember]
   deleteTeamMember(where: TeamMemberWhereUniqueInput!): TeamMember
   deleteTeamMembers(where: [TeamMemberWhereUniqueInput!]!): [TeamMember]
+  createCompany_Information(data: Company_InformationCreateInput!): Company_Information
+  createCompanyInformations(data: [Company_InformationCreateInput!]!): [Company_Information]
+  updateCompany_Information(where: Company_InformationWhereUniqueInput!, data: Company_InformationUpdateInput!): Company_Information
+  updateCompanyInformations(data: [Company_InformationUpdateArgs!]!): [Company_Information]
+  deleteCompany_Information(where: Company_InformationWhereUniqueInput!): Company_Information
+  deleteCompanyInformations(where: [Company_InformationWhereUniqueInput!]!): [Company_Information]
   endSession: Boolean!
   authenticateAdminWithPassword(email: String!, password: String!): AdminAuthenticationWithPasswordResult
   createInitialAdmin(data: CreateInitialAdminInput!): AdminAuthenticationWithPasswordSuccess!
@@ -311,6 +367,9 @@ type Query {
   teamMembers(where: TeamMemberWhereInput! = {}, orderBy: [TeamMemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TeamMemberWhereUniqueInput): [TeamMember!]
   teamMember(where: TeamMemberWhereUniqueInput!): TeamMember
   teamMembersCount(where: TeamMemberWhereInput! = {}): Int
+  companyInformations(where: Company_InformationWhereInput! = {}, orderBy: [Company_InformationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: Company_InformationWhereUniqueInput): [Company_Information!]
+  company_Information(where: Company_InformationWhereUniqueInput!): Company_Information
+  companyInformationsCount(where: Company_InformationWhereInput! = {}): Int
   keystone: KeystoneMeta!
   authenticatedItem: AuthenticatedItem
 }

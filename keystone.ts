@@ -15,6 +15,8 @@ import type { StorageConfig } from '@keystone-6/core/types'
 // when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './auth';
 
+import { gql } from 'graphql-tag';
+
 export default withAuth(
   config({
     db: {
@@ -22,6 +24,42 @@ export default withAuth(
       url: 'mysql://root:yudha@localhost:3306/article_keystonejs',
       enableLogging: true,
       idField: { kind: 'autoincrement' },
+      onConnect: async context => {
+        const { graphql } = context;
+
+        const createCompanyMutation = gql`
+          mutation Company_Information($name: String!, $address: String!) {
+            createCompany_Information(data: { name: $name, address: $address }) {
+              id
+              name
+              address
+            }
+          }
+        `;
+      
+        const companyData = {
+          name: 'Company ABC',
+          address: '123 Main Street',
+        };
+      
+        await graphql.raw({
+          query: createCompanyMutation,
+          variables: companyData,
+        });
+
+        // Seeding untuk satu data
+
+        // const mutation = gql`
+        //   mutation {
+        //     createCompany_Information(data: { name: "Silicon Valey" }) {
+        //       id
+        //       name
+        //     }
+        //   }
+        // `;
+
+        // await graphql.raw({ query: mutation });
+      },
     },
     server: {
       cors: { origin: ['http://localhost:3000'], credentials: true },

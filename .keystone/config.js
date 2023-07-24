@@ -87,6 +87,19 @@ var lists = {
       }),
       profile: (0, import_fields.image)({ storage: "profile_storage" })
     }
+  }),
+  Company_Information: (0, import_core.list)({
+    access: import_access.allowAll,
+    fields: {
+      name: (0, import_fields.text)({ validation: { isRequired: true } }),
+      address: (0, import_fields.text)({ validation: { isRequired: true } }),
+      createdAt: (0, import_fields.timestamp)({
+        defaultValue: { kind: "now" }
+      }),
+      updatedAt: (0, import_fields.timestamp)({
+        defaultValue: { kind: "now" }
+      })
+    }
   })
 };
 
@@ -124,13 +137,34 @@ var session = (0, import_session.statelessSessions)({
 });
 
 // keystone.ts
+var import_graphql_tag = require("graphql-tag");
 var keystone_default = withAuth(
   (0, import_core2.config)({
     db: {
       provider: "mysql",
       url: "mysql://root:yudha@localhost:3306/article_keystonejs",
       enableLogging: true,
-      idField: { kind: "autoincrement" }
+      idField: { kind: "autoincrement" },
+      onConnect: async (context) => {
+        const { graphql } = context;
+        const createCompanyMutation = import_graphql_tag.gql`
+          mutation Company_Information($name: String!, $address: String!) {
+            createCompany_Information(data: { name: $name, address: $address }) {
+              id
+              name
+              address
+            }
+          }
+        `;
+        const companyData = {
+          name: "Company ABC",
+          address: "123 Main Street"
+        };
+        await graphql.raw({
+          query: createCompanyMutation,
+          variables: companyData
+        });
+      }
     },
     server: {
       cors: { origin: ["http://localhost:3000"], credentials: true },
