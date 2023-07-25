@@ -114,8 +114,8 @@ input AdminCreateInput {
 type Position {
   id: ID!
   name: String
-  team(where: TeamMemberWhereInput! = {}, orderBy: [TeamMemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TeamMemberWhereUniqueInput): [TeamMember!]
-  teamCount(where: TeamMemberWhereInput! = {}): Int
+  team(where: Team_MemberWhereInput! = {}, orderBy: [Team_MemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: Team_MemberWhereUniqueInput): [Team_Member!]
+  teamCount(where: Team_MemberWhereInput! = {}): Int
 }
 
 input PositionWhereUniqueInput {
@@ -128,13 +128,13 @@ input PositionWhereInput {
   NOT: [PositionWhereInput!]
   id: IDFilter
   name: StringFilter
-  team: TeamMemberManyRelationFilter
+  team: Team_MemberManyRelationFilter
 }
 
-input TeamMemberManyRelationFilter {
-  every: TeamMemberWhereInput
-  some: TeamMemberWhereInput
-  none: TeamMemberWhereInput
+input Team_MemberManyRelationFilter {
+  every: Team_MemberWhereInput
+  some: Team_MemberWhereInput
+  none: Team_MemberWhereInput
 }
 
 input PositionOrderByInput {
@@ -144,14 +144,14 @@ input PositionOrderByInput {
 
 input PositionUpdateInput {
   name: String
-  team: TeamMemberRelateToManyForUpdateInput
+  team: Team_MemberRelateToManyForUpdateInput
 }
 
-input TeamMemberRelateToManyForUpdateInput {
-  disconnect: [TeamMemberWhereUniqueInput!]
-  set: [TeamMemberWhereUniqueInput!]
-  create: [TeamMemberCreateInput!]
-  connect: [TeamMemberWhereUniqueInput!]
+input Team_MemberRelateToManyForUpdateInput {
+  disconnect: [Team_MemberWhereUniqueInput!]
+  set: [Team_MemberWhereUniqueInput!]
+  create: [Team_MemberCreateInput!]
+  connect: [Team_MemberWhereUniqueInput!]
 }
 
 input PositionUpdateArgs {
@@ -161,15 +161,15 @@ input PositionUpdateArgs {
 
 input PositionCreateInput {
   name: String
-  team: TeamMemberRelateToManyForCreateInput
+  team: Team_MemberRelateToManyForCreateInput
 }
 
-input TeamMemberRelateToManyForCreateInput {
-  create: [TeamMemberCreateInput!]
-  connect: [TeamMemberWhereUniqueInput!]
+input Team_MemberRelateToManyForCreateInput {
+  create: [Team_MemberCreateInput!]
+  connect: [Team_MemberWhereUniqueInput!]
 }
 
-type TeamMember {
+type Team_Member {
   id: ID!
   fullname: String
   nickname: String
@@ -194,14 +194,14 @@ enum ImageExtension {
   gif
 }
 
-input TeamMemberWhereUniqueInput {
+input Team_MemberWhereUniqueInput {
   id: ID
 }
 
-input TeamMemberWhereInput {
-  AND: [TeamMemberWhereInput!]
-  OR: [TeamMemberWhereInput!]
-  NOT: [TeamMemberWhereInput!]
+input Team_MemberWhereInput {
+  AND: [Team_MemberWhereInput!]
+  OR: [Team_MemberWhereInput!]
+  NOT: [Team_MemberWhereInput!]
   id: IDFilter
   fullname: StringFilter
   nickname: StringFilter
@@ -209,14 +209,14 @@ input TeamMemberWhereInput {
   position: PositionWhereInput
 }
 
-input TeamMemberOrderByInput {
+input Team_MemberOrderByInput {
   id: OrderDirection
   fullname: OrderDirection
   nickname: OrderDirection
   email: OrderDirection
 }
 
-input TeamMemberUpdateInput {
+input Team_MemberUpdateInput {
   fullname: String
   nickname: String
   email: String
@@ -237,12 +237,12 @@ input ImageFieldInput {
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
 
-input TeamMemberUpdateArgs {
-  where: TeamMemberWhereUniqueInput!
-  data: TeamMemberUpdateInput!
+input Team_MemberUpdateArgs {
+  where: Team_MemberWhereUniqueInput!
+  data: Team_MemberUpdateInput!
 }
 
-input TeamMemberCreateInput {
+input Team_MemberCreateInput {
   fullname: String
   nickname: String
   email: String
@@ -323,12 +323,12 @@ type Mutation {
   updatePositions(data: [PositionUpdateArgs!]!): [Position]
   deletePosition(where: PositionWhereUniqueInput!): Position
   deletePositions(where: [PositionWhereUniqueInput!]!): [Position]
-  createTeamMember(data: TeamMemberCreateInput!): TeamMember
-  createTeamMembers(data: [TeamMemberCreateInput!]!): [TeamMember]
-  updateTeamMember(where: TeamMemberWhereUniqueInput!, data: TeamMemberUpdateInput!): TeamMember
-  updateTeamMembers(data: [TeamMemberUpdateArgs!]!): [TeamMember]
-  deleteTeamMember(where: TeamMemberWhereUniqueInput!): TeamMember
-  deleteTeamMembers(where: [TeamMemberWhereUniqueInput!]!): [TeamMember]
+  createTeam_Member(data: Team_MemberCreateInput!): Team_Member
+  createTeamMembers(data: [Team_MemberCreateInput!]!): [Team_Member]
+  updateTeam_Member(where: Team_MemberWhereUniqueInput!, data: Team_MemberUpdateInput!): Team_Member
+  updateTeamMembers(data: [Team_MemberUpdateArgs!]!): [Team_Member]
+  deleteTeam_Member(where: Team_MemberWhereUniqueInput!): Team_Member
+  deleteTeamMembers(where: [Team_MemberWhereUniqueInput!]!): [Team_Member]
   createCompany_Information(data: Company_InformationCreateInput!): Company_Information
   createCompanyInformations(data: [Company_InformationCreateInput!]!): [Company_Information]
   updateCompany_Information(where: Company_InformationWhereUniqueInput!, data: Company_InformationUpdateInput!): Company_Information
@@ -364,9 +364,9 @@ type Query {
   positions(where: PositionWhereInput! = {}, orderBy: [PositionOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: PositionWhereUniqueInput): [Position!]
   position(where: PositionWhereUniqueInput!): Position
   positionsCount(where: PositionWhereInput! = {}): Int
-  teamMembers(where: TeamMemberWhereInput! = {}, orderBy: [TeamMemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: TeamMemberWhereUniqueInput): [TeamMember!]
-  teamMember(where: TeamMemberWhereUniqueInput!): TeamMember
-  teamMembersCount(where: TeamMemberWhereInput! = {}): Int
+  teamMembers(where: Team_MemberWhereInput! = {}, orderBy: [Team_MemberOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: Team_MemberWhereUniqueInput): [Team_Member!]
+  team_Member(where: Team_MemberWhereUniqueInput!): Team_Member
+  teamMembersCount(where: Team_MemberWhereInput! = {}): Int
   companyInformations(where: Company_InformationWhereInput! = {}, orderBy: [Company_InformationOrderByInput!]! = [], take: Int, skip: Int! = 0, cursor: Company_InformationWhereUniqueInput): [Company_Information!]
   company_Information(where: Company_InformationWhereUniqueInput!): Company_Information
   companyInformationsCount(where: Company_InformationWhereInput! = {}): Int

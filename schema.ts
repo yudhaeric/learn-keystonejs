@@ -51,7 +51,7 @@ export const lists: Lists = {
       // tabel Position berhubungan dengan tabel teamMember melalui column position.
       // satu Position bisa punya banyak teamMember
       team: relationship({ 
-        ref: 'TeamMember.position', 
+        ref: 'Team_Member.position', 
         many: true,
         ui: {
           displayMode: 'cards',
@@ -63,7 +63,7 @@ export const lists: Lists = {
       }),
     },
   }),
-  TeamMember: list({
+  Team_Member: list({
     access: allowAll,
     fields: {
       fullname: text({ validation: { isRequired: true } }),

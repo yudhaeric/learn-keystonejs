@@ -20,17 +20,17 @@ model Admin {
 }
 
 model Position {
-  id   Int          @id @default(autoincrement())
-  name String       @default("")
-  team TeamMember[] @relation("TeamMember_position")
+  id   Int           @id @default(autoincrement())
+  name String        @default("")
+  team Team_Member[] @relation("Team_Member_position")
 }
 
-model TeamMember {
+model Team_Member {
   id                Int       @id @default(autoincrement())
   fullname          String    @default("")
   nickname          String    @default("")
   email             String    @default("")
-  position          Position? @relation("TeamMember_position", fields: [positionId], references: [id])
+  position          Position? @relation("Team_Member_position", fields: [positionId], references: [id])
   positionId        Int?      @map("position")
   profile_filesize  Int?
   profile_extension String?

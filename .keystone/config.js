@@ -54,7 +54,7 @@ var lists = {
       // tabel Position berhubungan dengan tabel teamMember melalui column position.
       // satu Position bisa punya banyak teamMember
       team: (0, import_fields.relationship)({
-        ref: "TeamMember.position",
+        ref: "Team_Member.position",
         many: true,
         ui: {
           displayMode: "cards",
@@ -66,7 +66,7 @@ var lists = {
       })
     }
   }),
-  TeamMember: (0, import_core.list)({
+  Team_Member: (0, import_core.list)({
     access: import_access.allowAll,
     fields: {
       fullname: (0, import_fields.text)({ validation: { isRequired: true } }),
@@ -163,7 +163,7 @@ var keystone_default = withAuth(
   (0, import_core2.config)({
     db: {
       provider: "mysql",
-      url: "mysql://root:yudha@localhost:3306/article_keystonejs",
+      url: "mysql://root:yudha@localhost:3306/learnkeystone6",
       enableLogging: true,
       idField: { kind: "autoincrement" },
       onConnect: async (context) => {
