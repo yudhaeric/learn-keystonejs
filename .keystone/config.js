@@ -136,8 +136,29 @@ var session = (0, import_session.statelessSessions)({
   secret: sessionSecret
 });
 
-// keystone.ts
+// seeder.ts
 var import_graphql_tag = require("graphql-tag");
+var seedData = async (context) => {
+  const mutation = import_graphql_tag.gql`
+    mutation Company_Information($name: String!, $address: String!) {
+        createCompany_Information(data: { name: $name, address: $address }) {
+          id
+          name
+          address
+        }
+      }
+  `;
+  const companyData = {
+    name: "Company ABC",
+    address: "123 Main Street"
+  };
+  await context.graphql.raw({
+    query: mutation,
+    variables: companyData
+  });
+};
+
+// keystone.ts
 var keystone_default = withAuth(
   (0, import_core2.config)({
     db: {
@@ -146,24 +167,10 @@ var keystone_default = withAuth(
       enableLogging: true,
       idField: { kind: "autoincrement" },
       onConnect: async (context) => {
-        const { graphql } = context;
-        const createCompanyMutation = import_graphql_tag.gql`
-          mutation Company_Information($name: String!, $address: String!) {
-            createCompany_Information(data: { name: $name, address: $address }) {
-              id
-              name
-              address
-            }
-          }
-        `;
-        const companyData = {
-          name: "Company ABC",
-          address: "123 Main Street"
-        };
-        await graphql.raw({
-          query: createCompanyMutation,
-          variables: companyData
-        });
+        const isEmpty = await context.db.Company_Information.count();
+        if (isEmpty === 0) {
+          await seedData(context);
+        }
       }
     },
     server: {

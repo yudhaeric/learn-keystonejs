@@ -1,20 +1,7 @@
-// Welcome to Keystone!
-//
-// This file is what Keystone uses as the entry-point to your headless backend
-//
-// Keystone imports the default export of this file, expecting a Keystone configuration object
-//   you can find out more at https://keystonejs.com/docs/apis/config
-
 import { config } from '@keystone-6/core';
-
-// to keep this file tidy, we define our schema in a different file
 import { lists } from './schema';
-import type { StorageConfig } from '@keystone-6/core/types'
-
-// authentication is configured separately here too, but you might move this elsewhere
-// when you write your list-level access control functions, as they typically rely on session data
 import { withAuth, session } from './auth';
-
+import { seedData } from './seeder';
 import { gql } from 'graphql-tag';
 
 export default withAuth(
@@ -25,40 +12,11 @@ export default withAuth(
       enableLogging: true,
       idField: { kind: 'autoincrement' },
       onConnect: async context => {
-        const { graphql } = context;
+        const isEmpty = await context.db.Company_Information.count();
 
-        const createCompanyMutation = gql`
-          mutation Company_Information($name: String!, $address: String!) {
-            createCompany_Information(data: { name: $name, address: $address }) {
-              id
-              name
-              address
-            }
-          }
-        `;
-      
-        const companyData = {
-          name: 'Company ABC',
-          address: '123 Main Street',
-        };
-      
-        await graphql.raw({
-          query: createCompanyMutation,
-          variables: companyData,
-        });
-
-        // Seeding untuk satu data
-
-        // const mutation = gql`
-        //   mutation {
-        //     createCompany_Information(data: { name: "Silicon Valey" }) {
-        //       id
-        //       name
-        //     }
-        //   }
-        // `;
-
-        // await graphql.raw({ query: mutation });
+        if (isEmpty === 0) {
+          await seedData(context);
+        }
       },
     },
     server: {
