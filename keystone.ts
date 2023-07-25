@@ -8,7 +8,7 @@ export default withAuth(
   config({
     db: {
       provider: 'mysql',
-      url: 'mysql://root:yudha@localhost:3306/article_keystonejs',
+      url: 'mysql://root:yudha@localhost:3306/learnKeystone6',
       enableLogging: true,
       idField: { kind: 'autoincrement' },
       onConnect: async context => {
